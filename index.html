@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Single Page Web App</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 2em;
+    background-color: #f0f0f0;
+  }
+  h1 {
+    text-align: center;
+  }
+  #loading {
+    display: none;
+    text-align: center;
+  }
+  #result {
+    white-space: pre-wrap;
+    background: #fff;
+    padding: 1em;
+    border-radius: 5px;
+    margin-top: 2em;
+  }
+  #processButton {
+    display: block;
+    margin: 1em auto;
+    padding: 0.5em 1em;
+    font-size: 1em;
+  }
+</style>
+</head>
+<body>
+<h1>Execute Script Results</h1>
+<button id="processButton">Run Data Processing</button>
+<div id="loading">Processing...</div>
+<div id="result"></div>
+<script>
+  document.getElementById('processButton').addEventListener('click', () => {
+    const loading = document.getElementById('loading');
+    const resultDiv = document.getElementById('result');
+    loading.style.display = 'block';
+    resultDiv.textContent = '';
+    fetch('/result.json')
+      .then(res => res.text())
+      .then(txt => {
+        resultDiv.textContent = txt;
+        loading.style.display = 'none';
+      })
+      .catch(err => {
+        resultDiv.textContent = 'Error fetching result.';
+        loading.style.display = 'none';
+      });
+  });
+</script>
+</body>
+</html>
